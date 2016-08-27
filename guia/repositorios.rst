@@ -58,6 +58,7 @@ RHEL / CentOS 4 32-64 Bit
 ----------------------------
 
 ## RHEL/CentOS 4 32-Bit ##::
+
 	# wget http://download.fedoraproject.org/pub/epel/4/i386/epel-release-4-10.noarch.rpm
 	# rpm -ivh epel-release-4-10.noarch.rpm
 
