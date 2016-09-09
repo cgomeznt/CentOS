@@ -1,6 +1,6 @@
 ## CentOS
 
-
+* [Configurar yum desde DVD](guia/yumdvd.rst)
 * [Configurar Red](guia/configurar_red.rst)
 * [Configurar Default Router](guia/default_router.rst)
 * [Configurar Static Router](guia/static_router.rst)
