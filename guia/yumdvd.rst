@@ -4,32 +4,35 @@ Configurar yum desde DVD
 
 Montar el DVD dentro del sistema instalado o utilizar una iso.::
 
-	# mount -o loop CentOS-6.5-x86_64.iso /mnt
-	# mount -o /dev/sr0 /mnt
-	# ls -l /mnt
+	# mkdir /media/cdrom
+	# mount -o loop CentOS-6.5-x86_64.iso /media/cdrom
+	# mount -o /dev/sr0 /media/cdrom
+	# ls -l /media/cdrom
 
 Editamos para agregar las lineas necesarias.::
 
-	# vi /etc/yum.repos.d/CentOS-Media.repo
-	# This repo can be used with mounted DVD media, verify the mount point for
-	# CentOS-6. You can use this repo and yum to install items directly off the
-	# DVD ISO that we release.
+	# CentOS-Media.repo
+	#
+	#  This repo can be used with mounted DVD media, verify the mount point for
+	#  CentOS-6.  You can use this repo and yum to install items directly off the
+	#  DVD ISO that we release.
 	#
 	# To use this repo, put in your DVD and use it with the other repos too:
-	# yum --enablerepo=c6-media [command]
-	#
+	#  yum --enablerepo=c6-media [command]
+	#  
 	# or for ONLY the media repo, do this:
 	#
-	# yum --disablerepo=\* --enablerepo=c6-media [command]
+	#  yum --disablerepo=\* --enablerepo=c6-media [command]
+	 
 	[c6-media]
 	name=CentOS-$releasever - Media
 	baseurl=file:///media/CentOS/
-
-	## Add the following lines ##
-	file:///mnt/cdrom/
+		    file:///media/cdrom/
+		    file:///media/cdrecorder/
 	gpgcheck=1
 	enabled=0
 	gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
 
 Como vemos en la ayuda nos dice como utilizar este repo.::
 
