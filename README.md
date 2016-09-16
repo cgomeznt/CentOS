@@ -14,5 +14,7 @@
 * [Cambiar el idioma del teclado y/o formato](guia/cambiar_teclado.rst)
 * [Configurar NTP](guia/ntp.rst)
 * [Configurar locale](guia/locale.rst)
+* [Configurar LVM](guia/lvm.rst)
+* [instalar un escritorio gráfico](guia/installgrafico.rst)
 
 
