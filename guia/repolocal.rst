@@ -42,7 +42,7 @@ Crear /etc/yum.repos.d/Centos.local.repo.::
 
 Para repositorios vía HTTP o FTP la línea de baseurl debe ser modificada según corresponda.
 
-Instalar paquetes en el servidor para probar el repositorio.
+Instalar paquetes en el servidor para probar el repositorio.::
 
 	# yum --disablerepo=\* --enablerepo=rsyslog info rsyslog
 	# yum --disablerepo=\* --enablerepo=rsyslog search rsyslog

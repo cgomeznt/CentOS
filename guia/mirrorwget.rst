@@ -9,6 +9,6 @@ Crear un mirror offline con wget
 	
 	# mkdir /repo
 	# cd /repo
-	# wget --mirror --recursive --no-parent http://example.org
+	# wget --mirror --recursive --no-parent http://rpms.adiscon.com/v7-stable/epel-6/
 
 
