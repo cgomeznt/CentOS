@@ -16,5 +16,9 @@
 * [Configurar locale](guia/locale.rst)
 * [Configurar LVM](guia/lvm.rst)
 * [instalar un escritorio gráfico](guia/installgrafico.rst)
+* [instalar Herramientas de Desarrollo](guia/installdev.rst)
+* [Configurar logrotate](guia/logrotate.rst)
+* [Crear un mirror offline con wget](guia/mirrorwget.rst)
+* [Crear un repo local](guia/repolocal.rst)
 
 
