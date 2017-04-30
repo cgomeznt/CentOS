@@ -13,13 +13,13 @@ Use the following command to install prerequisites for Python before installing 
 
 	# yum install gcc
 
-Now extract the downloaded package.
+Now extract the downloaded package.::
 
 	# tar xzf Python-3.4.4.tgz
 
 Compile Python Source
 
-Use below set of commands to compile python source code on your system using altinstall.
+Use below set of commands to compile python source code on your system using altinstall.::
 
 	# cd Python-3.4.4
 	# ./configure
@@ -27,20 +27,20 @@ Use below set of commands to compile python source code on your system using alt
 
 make altinstall is used to prevent replacing the default python binary file /usr/bin/python.
 
-Now remove downloaded source archive file from your system
+Now remove downloaded source archive file from your system.::
 
 	# rm Python-3.4.4.tgz
 
 Check Python Version
 
-Check the latest version installed of python using below command
+Check the latest version installed of python using below command.::
 
 	# python3.4 -V
 
 	Python 3.4.4
 
 
-Crear los link symbolics para python 3.4
+Crear los link symbolics para python 3.4.::
 
 	# ls -l /usr/local/bin/python*
 	# rm -f /usr/local/bin/python
