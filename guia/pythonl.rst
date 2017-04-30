@@ -15,13 +15,13 @@ Use the following command to install prerequisites for Python before installing 
 
 Now extract the downloaded package.::
 
-	# tar xzf Python-3.4.4.tgz
+	# tar xzf Python-3.4.5.tgz
 
 Compile Python Source
 
 Use below set of commands to compile python source code on your system using altinstall.::
 
-	# cd Python-3.4.4
+	# cd Python-3.4.5
 	# ./configure
 	# make altinstall
 
@@ -29,7 +29,7 @@ make altinstall is used to prevent replacing the default python binary file /usr
 
 Now remove downloaded source archive file from your system.::
 
-	# rm Python-3.4.4.tgz
+	# rm Python-3.4.5.tgz
 
 Check Python Version
 
@@ -37,7 +37,7 @@ Check the latest version installed of python using below command.::
 
 	# python3.4 -V
 
-	Python 3.4.4
+	Python 3.4.5
 
 
 Crear los link symbolics para python 3.4.::
