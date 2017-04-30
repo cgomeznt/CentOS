@@ -29,7 +29,7 @@ Ahora le damos la estructura al repositorio para que sea entendible por yum.::
 	# createrepo /share/CentOS/4/local/i386
 
 
-Crear /etc/yum.repos.d/Centos.local.repo.::
+Crear /etc/yum.repos.d/Centos.local.repo (1 enabled y 0 disabled).::
 
 	# vi /etc/yum.repos.d/Centos.local.repo
 
@@ -37,7 +37,7 @@ Crear /etc/yum.repos.d/Centos.local.repo.::
 	name=CentOS- rsyslog - local
 	# baseurl=https://direccion-ip # crea un virtual host
 	baseurl=file:///repo
-	enabled=1
+	enabled=0
 	gpgcheck=0
 
 Para repositorios vía HTTP o FTP la línea de baseurl debe ser modificada según corresponda.
