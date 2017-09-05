@@ -5,6 +5,7 @@
 * [Configurar Red](guia/configurar_red.rst)
 * [Configurar Default Router](guia/default_router.rst)
 * [Configurar Static Router](guia/static_router.rst)
+* [Configurar Default Router y Static Router](guia/defaultrouterstatic.rst)
 * [Configurar DNS](guia/dns.rst)
 * [Configurar Cambiar Hostname](guia/cambiar_hostname.rst)
 * [Configurar bonding en VirtualBox](guia/bonding_vm.rst)
