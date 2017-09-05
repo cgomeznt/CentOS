@@ -124,6 +124,7 @@ Reiniciamos los adaptadores.::
 	# ifdown eth2
 	# ifup eth2
 
+Consultamos las rutas configuradas.::
 
 	# route
 		Kernel IP routing table
