@@ -1,0 +1,71 @@
+#!/bin/bash
+
+ARG1="$1"
+ARG2="$2"
+ARGN="$#"
+USERNAME="cdcactivity"
+PASSWORD="Cr3d1c4rd$"
+SERVER="localhost"
+PORT="11010"
+AGENT_SOURCE="DB_IST"
+AGENT_TARGET="DB_REPLICA"
+ZABBIX_SRV="srv-vccs-zabbix.credicard.com.ve"
+HOSTNAME=$(hostname)
+# Este archivo se crea gracias al script check_subscriptions.sh
+RUTA_TMP="/tmp"
+FILE_TMP="check_subscriptions.txt"
+
+
+function send_zabbix {
+    /usr/zabbix/bin/zabbix_sender vv -z $ZABBIX_SRV -s $HOSTNAME -k $1 -o $2 &> /dev/null
+}
+
+function getActivity {
+    echo $1
+    if [ ! -f /tmp/$1.activity.last ] ; then
+        echo "El archivo no existe"
+        touch /tmp/$1.activity.last
+        cat /tmp/$1.activity.txt | egrep 'Target apply inserts' | awk '{print $4}' | tr -d "," > /tmp/$1.activity.last
+        send_zabbix $1.activity 0
+    else
+        ACTIVITYNOW=`cat /tmp/$1.activity.txt | egrep 'Target apply inserts' | awk '{print $4}' | tr -d ","`
+        if [ `cat /tmp/$1.activity.last | wc -l` -eq 0 ] ; then
+            echo "El archivo esta vacio"
+            cat /tmp/$1.activity.txt | egrep 'Target apply inserts' | awk '{print $4}' | tr -d ","
+            cat /tmp/$1.activity.txt | egrep 'Target apply inserts' | awk '{print $4}' | tr -d "," > /tmp/$1.activity.last
+            send_zabbix $1.activity 0
+        else
+            echo "El archivo tiene contenido"
+            ACTIVITYLAST=`cat /tmp/$1.activity.last`
+            echo "ACTIVITYNOW $ACTIVITYNOW, ACTIVITYLAST $ACTIVITYLAST"
+            if [ $ACTIVITYNOW -eq $ACTIVITYLAST ] ; then
+                echo "No hay actividad en la suscripcion $1"
+                cat /tmp/$1.activity.txt | egrep 'Target apply inserts' | awk '{print $4}' | tr -d "," > /tmp/$1.activity.last
+                send_zabbix $1.activity 0
+            else
+                echo "Hay actividad en la suscripcion $1"
+                cat /tmp/$1.activity.txt | egrep 'Target apply inserts' | awk '{print $4}' | tr -d "," > /tmp/$1.activity.last
+                send_zabbix $1.activity 1
+            fi
+        fi
+    fi
+}
+
+for ARG1 in  $(cat $RUTA_TMP/$FILE_TMP | grep -v Copy | grep -v Welcome | grep -v \#  | awk '{print $1}')
+do
+
+echo -e "CHCCLP session set to cdc;
+connect server username "$USERNAME" password 'Cr3d1c4rd$' hostname $SERVER port $PORT;
+connect datastore name $AGENT_SOURCE context source;
+connect datastore name $AGENT_TARGET context target;
+select subscription name $ARG1;
+monitor subscription activity;
+disconnect server;
+exit;" > /tmp/subscription_activity.txt
+
+/CDC/TS_AccessServer/bin/chcclp -f /tmp/subscription_activity.txt > /tmp/$ARG1.activity.txt
+
+> /tmp/subscription_activity.txt
+sleep 1
+getActivity $ARG1
+done

@@ -1,0 +1,12 @@
+case "$1" in
+    start|stop|restart)
+        $1
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Debe usar: $0 {start|stop|status|restart}"
+        exit 2
+        ;;
+esac

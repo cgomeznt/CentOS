@@ -1,0 +1,41 @@
+#!/bin/bash
+
+JAVA_BIN="/usr/java5/jre/bin/java"
+JMX_CLIENT="/usr/local/cmdline-jmxclient-0.10.3.jar"
+PORT="1098 1099"
+BEANNAME="java.lang:type=Memory"
+COMMAND="HeapMemoryUsage"
+ZABBIX_SRV="srv-vccs-zabbix.credicard.com.ve"
+HOSTNAME=$(hostname -s)
+
+function ZabbixSender {
+    /usr/zabbix/bin/zabbix_sender -z $ZABBIX_SRV -s $HOSTNAME -k $1 -o $2 &> /dev/null
+}
+
+function getValores {
+    RESULT="$($JAVA_BIN -jar $JMX_CLIENT - localhost:$1 $BEANNAME $COMMAND 2>&1)"
+}
+
+function LimpiaValores {
+   # HeapMemoryUsage_committed
+   COMMITED=$(echo $RESULT | awk -F":" '{print $5}' | tr -d init)
+   # HeapMemoryUsage_init
+   INIT=$(echo $RESULT | awk -F":" '{print $6}' | tr -d max)
+   # HeapMemoryUsage_max
+   MAX=$(echo $RESULT | awk -F":" '{print $7}' | tr -d used)
+   # HeapMemoryUsage_used
+   USED=$(echo $RESULT | awk -F":" '{print $8}')
+}
+
+
+for item in $(echo $PORT)
+do
+    getValores $item
+    LimpiaValores
+    ZabbixSender HeapMemoryUsage_max.$item $MAX
+    ZabbixSender HeapMemoryUsage_used.$item $USED
+    # echo $COMMITED
+    # echo $INIT
+    echo $MAX
+    echo $USED
+done

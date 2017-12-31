@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ZABBIX_SRV="srv-vccs-zabbix.credicard.com.ve"
+HOSTNAME=`hostname -s`
+KEY="pag"
+VALUE=`ls -l /var/lib/mod_security/ip.pag | awk '{print $5}'`
+
+/usr/bin/zabbix_sender -z $ZABBIX_SRV -s $HOSTNAME -k $KEY -o $VALUE &> /dev/null
+
+
+
+Ruta Relativa
+
+PS C:\Program Files\zabbix_agent\bin\win64> .\zabbix_sender.exe -c ..\..\conf\zabbix_agentd.conf  -z srv-vccs-zabbix.credicard.com.ve -s SRV-VCCS-MAIL1 -k StatusCopyDatabase -o 1
+
+Ruta absoluta
+
+PS C:\> C:\"Program Files\zabbix_agent\bin\win64\"zabbix_sender.exe -c C:\"Program Files\zabbix_agent\conf\"zabbix_agentd.conf  -z srv-vccs-zabbix.credicard.com.ve -s SRV-VCCS-MAIL1 -k StatusCopyDatabase -o 0

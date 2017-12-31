@@ -1,0 +1,48 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          <NAME>
+# Required-Start:    $local_fs $network $named $time $syslog
+# Required-Stop:     $local_fs $network $named $time $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       <DESCRIPTION>
+### END INIT INFO
+
+PATH="/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/scripts"
+JAVA_HOME="/opt/java/j2sdk1.4.2_19"
+
+SCRIPT="/opt/as/jakarta-tomcat-5.0.27/bin/catalina.sh"
+
+start() {
+  echo 'Starting service' >&2
+  $SCRIPT start
+  echo 'Service started' >&2
+}
+
+stop() {
+  $SCRIPT stop
+  echo 'Stopping service' >&2
+  sleep 3
+  for i in $(ps -ef | grep -v grep | grep -v tail | grep catalina | awk '{print $2}')
+  do
+     kill -9 $i
+  done
+  sync; echo 1 > /proc/sys/vm/drop_caches
+  echo 'Service stopped' >&2
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+esac
+

@@ -1,0 +1,32 @@
+
+##### Some functions to make life easier
+
+# How to use this
+usage() {
+    echo "Usage: pumonitor [[-t testfilename] [-k keyname] [-p propertiesfile] | [-h]]"
+}
+
+
+###### main
+
+# Reading parameters...
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -t | --test-file )          shift
+                                    testfile=$1
+                                    ;;
+        -k | --key-name )           shift
+                                    keyname=$1
+                                    ;;
+        -p | --properties-file )    shift
+                                    propertiesfile=$1
+                                    ;;
+        -h | --help )               usage
+                                    exit
+                                    ;;
+        * )                         usage
+                                    exit 1
+    esac
+    shift
+done

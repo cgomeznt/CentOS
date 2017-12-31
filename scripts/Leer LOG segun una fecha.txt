@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Cantidad de minutos que utilizara el script para buscar los registros con esa antiguedad, partiendo de la fecha actual
+MINUTOS=$1
+RUTADELARCHIVOLOG="/tmp/wso2carbon.log"
+
+# Captura la fecha actual le resta los minutos y lo convierte en EPOCH
+FIVEMINAGOEPOCH=`date --date="$MINUTOS minutes ago" +%s`
+
+# Captura la fecha actual le suma los minutos y lo convierte en EPOCH
+FIVEMINADDEPOCH=`date --date="$MINUTOS minutes" +%s`
+
+# Ejecuta el while para leer todas las lineas del archivo
+while read linea
+do
+        # Lee la linea y captura la fecha de ese registro
+        FECHALOG=`echo $linea | awk '{print $4 " " $5}' | awk -F "," '{print $1}' | tr -d "["`
+        # La fecha que capturo del registro lo convierte en EPOCH
+        FECHAEPOCHLOG=`date +%s -d "$FECHALOG"`
+        # Evalua que la fecha del registro este en el rango que se quiere visualizar.
+        # echo "$FECHAEPOCHLOG  $FIVEMINAGOEPOCH"
+        if [ $FECHAEPOCHLOG -ge $FIVEMINAGOEPOCH ] ; then
+                echo $linea     # Imprime la Linea
+        else
+                exit 0
+        fi
+
+done < $RUTADELARCHIVOLOG
+
+
+==========================================================================================================
+
+/usr/local/bin/UsersAuthentication.sh 5 | grep -i ldap | grep -i logged | wc -l > /tmp/UsersAuthentication.txt

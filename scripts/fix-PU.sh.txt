@@ -1,0 +1,31 @@
+#!/bin/bash
+
+SCRIPT_NAME="$(basename $0)"
+
+function statements_exceeded {
+    NUMSTATEMEXCEEDED=`grep "statements exceeded" /var/log/jboss-eap/services/logAppBss.log | wc -l`
+    echo "statements_exceeded $NUMSTATEMEXCEEDED"
+    if [ $NUMSTATEMEXCEEDED -gt 1 ] ; then
+       logger -t $SCRIPT_NAME -p local5.err "[ERROR] statements_exceeded con un total de $NUMSTATEMEXCEEDED, se reinicia el servicio "
+       /usr/local/bin/start-stop-PU.sh restart
+       logrotate -f /etc/logrotate.d/logAppBss.log.conf
+    else
+       logger -t $SCRIPT_NAME -p local5.info "[INFO] statements_exceeded esta normal: $NUMSTATEMEXCEEDED"
+    fi
+}
+
+function pool_dead {
+   ACTIVE_COUNT=$(cat /var/tmp/jboss-domain-mode-var-srv.txt | grep srvdataSourceDB2PoolstatisticspoolActiveCount | cut -d '=' -f2 2>&1)
+
+   echo "SourceDB2PoolstatisticspoolActiveCount $ACTIVE_COUNT"
+
+   if [ $ACTIVE_COUNT -eq 0 ] ; then
+       logger -t $SCRIPT_NAME -p local5.err "[ERROR] SourceDB2PoolstatisticspoolActiveCount $ACTIVE_COUNT, causa pool is dead, se reinicia el servicio"
+       /usr/local/bin/start-stop-PU.sh restart
+   else
+       logger -t $SCRIPT_NAME -p local5.err "[INFO] SourceDB2PoolstatisticspoolActiveCount esta normal: $ACTIVE_COUNT"
+   fi
+}
+
+statements_exceeded
+pool_dead

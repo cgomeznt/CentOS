@@ -1,0 +1,52 @@
+#!/bin/bash
+
+PATH="/usr/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11:/sbin:/usr/java5/jre/bin:/usr/java5/bin:/opt/freeware/sbin/"
+
+if [ $# -eq 0 ] ; then
+   clear
+   echo -e "Debe pasar argumentos, como el nombre del servidor y umbral"
+   echo "Ejemplo: "
+   echo "/usr/local/restar-server.sh BELOHORIZONTE 3860000000"
+   echo " "
+   exit 1
+fi
+
+
+# SERVER="BELOHORIZONTE"
+SERVER=$1
+SW="true"
+# UMBRAL=3860000000
+UMBRAL=$2
+
+if [ $HEAPACTUAL == "BELOHORIZONTE" ] ; then
+    HEAPACTUAL=$(/usr/local/jmx_check.sh  | head -2 | tail -1)
+else
+    HEAPACTUAL=$(/usr/local/jmx_check.sh  | tail -1)
+fi
+
+
+# echo "Server $SERVER, switch $SW"
+
+# /usr/IBM/WebSphere/AppServer/profiles/PREPAGOAPP1/bin/stopServer.sh $SERVER
+# sleep 3
+
+if [[ HEAPACTUAL -gt UMBRAL ]] ; then
+
+while $SW
+do
+   SERVER_EXIST=$(ps -ef | grep -v grep |  grep -v tail | grep -i $SERVER | wc -l)
+   if [ $SERVER_EXIST -eq 0 ] ; then
+       # echo "Manda a salir del while"
+       /usr/IBM/WebSphere/AppServer/profiles/PREPAGOAPP2/bin/startServer.sh $SERVER
+       # /usr/IBM/WebSphere/AppServer/profiles/PREPAGOAPP1/bin/startServer.sh $SERVER
+       /usr/bin/logger -p aso.notice -t WARN "Se reinicio el servidor $SERVER, $HEAPACTUAL"
+       # grep WARN /var/log/aso/aso_process.log
+       break
+   else
+       ps -ef | grep -v grep |  grep -v tail | grep -i $SERVER | awk '{print $2}' | xargs kill -9
+       sleep 3
+   fi
+done
+
+# echo "culmina el script"
+fi

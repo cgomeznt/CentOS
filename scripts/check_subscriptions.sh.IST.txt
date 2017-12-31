@@ -1,0 +1,56 @@
+#!/bin/bash
+
+ZABBIX_SRV="srv-vccs-zabbix.credicard.com.ve"
+HOSTNAME=$(hostname)
+RUTA_SCRIPT="/CDC/scripts"
+FILE_SCRIPT="cdc_subscriptions.sh"
+RUTA_TMP="/tmp"
+FILE_TMP="check_subscriptions.txt"
+
+function send_zabbix {
+    /usr/zabbix/bin/zabbix_sender -z $ZABBIX_SRV -s $HOSTNAME -k $2 -o $1 &> /dev/null
+}
+
+function fix_Latency {
+    if [ $1 -gt 10000 ] ; then
+        # /CDC/scripts/cdc_subscriptions.sh stop all
+        /CDC/scripts/cdc_agentes.sh stop
+        sleep 2
+        /CDC/scripts/cdc_agentes.sh start
+        sleep 2
+        echo "1" >> /tmp/restartagentes
+        while true ; do
+            /usr/bin/netstat -na | grep -i listen | grep 11004 && /CDC/scripts/cdc_subscriptions.sh start all && exit
+        done
+    fi
+}
+
+function list_subscriptions {
+    $RUTA_SCRIPT/$FILE_SCRIPT list > $RUTA_TMP/$FILE_TMP
+}
+
+function check_stopped {
+    for SELECT_SUBSCRIPTIONS in $(cat $RUTA_TMP/$FILE_TMP | grep -v Copy | grep -v Welcome | grep -v \#  | awk '{print $1}')
+    do
+        grep -v "\#" $RUTA_TMP/$FILE_TMP | grep  -w $SELECT_SUBSCRIPTIONS | grep -i stopped &> /dev/null
+        if [ $? -eq 0 ] ; then
+                # echo "stopped $SELECT_SUBSCRIPTIONS"
+                send_zabbix 0 $SELECT_SUBSCRIPTIONS
+        else
+                # echo "started $SELECT_SUBSCRIPTIONS"
+                send_zabbix 1 $SELECT_SUBSCRIPTIONS
+                $RUTA_SCRIPT/bin/check_latency.sh $SELECT_SUBSCRIPTIONS
+                echo $SELECT_SUBSCRIPTIONS
+                VALUELACTENCY=`cat /tmp/$SELECT_SUBSCRIPTIONS.txt | grep -w $SELECT_SUBSCRIPTIONS | awk '{print $2}' | tail -1`
+                echo $VALUELACTENCY
+                send_zabbix $VALUELACTENCY Latency_$SELECT_SUBSCRIPTIONS
+                if [ `cat /tmp/restartagentes | wc -l` -lt 3 ] ; then
+                    fix_Latency $VALUELACTENCY
+                fi
+        fi
+    done
+}
+
+
+list_subscriptions
+check_stopped

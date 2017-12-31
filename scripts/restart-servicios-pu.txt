@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# El script debe ejecutar otro script que es el que suministra los valores de un item de monitoreo
+# Luego este script evalua si el resultado es mayor a un umbral
+# Si supera el umbral por tres veces debe reiniar el servicio
+# Si en este proceso se llama varias veces el proceso de reinicio solo se ejecutara la primera vez
+
+# Como debe estar tabulado SERVICIOS_MONITOREAR, una linea por cada servicio
+# ruta del script:script que obtiene el valor:ruta del resultado :Umbral: el script que ejecutara la accion de restart
+
+TMP="/tmp"
+SERVICIOS_MONITOREAR="/home/cgomez:test1.sh:/tmp:test1.txt:30:reiniciaApache
+/home/cgomez:0test.sh:/tmp:0test.txt:20:reiniciaTomcat"
+
+function Ejecuta_Script {
+    # Ejecuta un script externo para que genere un resultado
+    $1/$2 24
+}
+
+function Obtener_Valor {
+    # Debe contener aqui el resultado que se genero por otro script (de la funcion Ejecutar_Script)  para capturar el valor actual y compararlo con el umbral
+    VALOR_ACTUAL=$(cat $1/$2)
+}
+
+function Verifica_Umbral {
+    # Verifica si el valor obtenido por otro script es menor que el umbral, si supera el umbral
+    # por tres veces continuas, procede a llamar la funcion que reinicia el servicio. Pero si ya el servicio
+    # fue reiniciado por otro item no reiniciara el servicio
+    # Tambien si luego de tres veces continuas continua superando el umbral el script no tomara ninguna accion.
+    if [ $VALOR_ACTUAL -gt $1 ] ; then
+        echo "Inicia el contador en el archivo"
+        echo "1" >> $TMP/$2.verif
+        VECES_OCURRIDAS=$(cat $TMP/$2.verif | wc -l)
+        echo $VECES_OCURRIDAS
+        if [ $VECES_OCURRIDAS -eq 3 ] ; then
+            if [ -f $TMP/restart.verif ] ; then
+                echo "El servicio ya se reinicio en este proceso, No se va reiniciar nuevamente"
+            else
+                echo "Ejecuta la accion de reinicio"
+                touch $TMP/restart.verif
+                Ejecutar_Accion $3
+            fi
+        elif [ $VECES_OCURRIDAS -gt 3 ] ; then
+            echo "Ya se reinicio el servicio y aun los valores superan los umbrales"
+        fi
+    else
+        echo "Elimina el archivo"
+        rm -f $TMP/$2.verif
+    fi
+}
+
+function Ejecutar_Accion {
+    # Funcion que tendra los parametros para reiniciar un servicio
+    echo "REINICIANDO SERVICIO $1"
+}
+
+function Limpiar {
+    rm -f $TMP/restart.verif
+    unset RUTA_SCRIPT
+    unset SCRIPT
+    unset RUTA_VALOR
+    unset VALOR
+    unset UMBRAL
+    unset ACCION
+    unset SERVICIOS_MONITOREAR
+    unset VALOR_ACTUAL
+    unset VECES_OCURRIDAS
+    unset TMP
+}
+
+# Realiza un for para todos los script que se quieran ejecutar para monitorear
+
+for  PARAMETROS in $SERVICIOS_MONITOREAR
+do
+    RUTA_SCRIPT=$(echo $PARAMETROS | awk -F":" '{print $1}')
+    SCRIPT=$(echo $PARAMETROS | awk -F":" '{print $2}')
+    Ejecuta_Script $RUTA_SCRIPT $SCRIPT
+    RUTA_VALOR=$(echo $PARAMETROS | awk -F":" '{print $3}')
+    VALOR=$(echo $PARAMETROS | awk -F":" '{print $4}')
+    Obtener_Valor $RUTA_VALOR $VALOR
+    UMBRAL=$(echo $PARAMETROS | awk -F":" '{print $5}')
+    ACCION=$(echo $PARAMETROS | awk -F":" '{print $6}')
+    Verifica_Umbral $UMBRAL $SCRIPT $ACCION
+done
+Limpiar

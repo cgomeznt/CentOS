@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIA_ANTES=`date --date "-1 days" +%d`
+echo $DIA_ANTES
+ls -lt | awk '{if ($7=="'"$DIA_ANTES"'") print $7 " " $9}'
+ls -lt | awk -v var="$DIA_ANTES" 'BEGIN {print var}'

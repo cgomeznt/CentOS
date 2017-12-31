@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PATH_LOG=/home/cgomez
+FILE_LOG=zprueba.txt
+
+tail -f $PATH_LOG/$FILE_LOG | while read READLINE
+do
+        echo $READLINE | grep "Started" && pkill tail
+done
+echo "Bye"

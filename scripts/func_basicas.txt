@@ -1,0 +1,11 @@
+function colores {
+        if [ $1 -eq 1 ]; then
+                echo -en "\e[31m"
+        elif [ $1 -eq 2 ]; then
+                echo -en "\e[33m"
+        elif [ $1 -eq 3 ]; then
+                echo -en "\e[32m"
+        else
+                echo -en "\e[39m"
+        fi
+}

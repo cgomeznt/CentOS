@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ZABBIX_SRV="srv-vccs-zabbix.credicard.com.ve"
+HOSTNAME=$(hostname)
+RUTA_SCRIPT="/CDC/scripts"
+FILE_SCRIPT="cdc_subscriptions.sh"
+RUTA_TMP="/tmp"
+FILE_TMP="check_subscriptions.txt"
+SUBSCRIPTIONS="IST_TRA1 IST_TRA2 IST_TRA3 IST_TRA4 GEN1 CONFIG2 GEN4"
+
+function send_zabbix {
+    /usr/zabbix/bin/zabbix_sender -z $ZABBIX_SRV -s $HOSTNAME -k $2 -o $1 &> /dev/null
+}
+
+function list_subscriptions {
+    $RUTA_SCRIPT/$FILE_SCRIPT list > $RUTA_TMP/$FILE_TMP
+}
+
+function check_stopped {
+    for SELECT_SUBSCRIPTIONS in $(echo "$SUBSCRIPTIONS")
+    do
+        grep -v ">" $RUTA_TMP/$FILE_TMP | grep  $SELECT_SUBSCRIPTIONS | grep -i stopped &> /dev/null
+        if [ $? -eq 0 ] ; then
+                # echo "stopped"
+                send_zabbix 0 $SELECT_SUBSCRIPTIONS
+        else
+                # echo "started"
+                send_zabbix 1 $SELECT_SUBSCRIPTIONS
+        fi
+    done
+}
+
+
+list_subscriptions
+check_stopped

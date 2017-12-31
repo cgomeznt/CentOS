@@ -1,0 +1,48 @@
+#!/bin/bash
+
+HOSTNAME=`hostname`
+# Captura la fecha actual le resta los minutos y lo convierte en EPOCH
+FIVEMINAGOEPOCH=`date --date="$MINUTOS minutes ago" +%s`
+# Captura la fecha actual le suma los minutos y lo convierte en EPOCH
+FIVEMINADDEPOCH=`date --date="$MINUTOS minutes" +%s`
+
+TOKEN="327956367:AAHh4Im0dXwel2zQ3bhz9I5yfHhvS5RuG_0"
+
+curl -s -d "&disable_web_page_preview=1" https://api.telegram.org/bot$TOKEN/getme > /tmp/getme.txt
+curl -s -d "&disable_web_page_preview=1" https://api.telegram.org/bot$TOKEN/getupdates > /tmp/getupdates.txt
+
+CHATID=`cat /tmp/getupdates.txt | tail -1 | awk -F":" '{print $8}' | awk -F"," '{print $1}'`
+FECHAMESSAGE=`cat /tmp/getupdates.txt | tail -1 | awk -F":" '{print $11}' | awk -F"," '{print $1}'`
+MESSAGE=`cat /tmp/getupdates.txt | tail -1 | awk -F":" '{print $12}' | tr -d "\}\]]\""`
+MESSAGE=`echo $MESSAGE | tr '[:upper:]' '[:lower:]'`
+
+function sendMessage {
+    curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$1" https://api.telegram.org/bot$TOKEN/sendMessage >/dev/null
+}
+echo $MESSAGE | grep "\," > /dev/null
+if [ $? -eq 0 ] ; then
+    MESSAGE=`echo $MESSAGE | awk -F"," '{print $1}'`
+fi
+if [ $FECHAMESSAGE -ge $FIVEMINAGOEPOCH ] ; then
+    SERVER=`echo $MESSAGE | awk '{print $1}'`
+    SERVICE=`echo $MESSAGE | awk '{print $2}'`
+    ACTION=`echo $MESSAGE | awk '{print $3}'`
+    ssh $SERVER /usr/local/bin/telegram_exec.sh $SERVICE $ACTION
+    if [ $? -eq 0 ] ; then
+        sendMessage "En el servidor $SERVER, la accion $ACTION se ejecuto con exito en el sevicio $SERVICE. $HOSTNAME"
+    else
+        sendMessage "ERROR - En el servidor $SERVER, la accion $ACTION FALLO sobre el sevicio $SERVICE. $HOSTNAME"
+    fi
+else
+    echo "no hay mensaje menos de 5 minutos"
+    exit 0
+fi
+
+
+# echo "El id_chat: $CHATID, la fecha del mensaje `date -d @$FECHAMESSAGE` y el mensaje fue: $MESSAGE"
+
+
+# curl -k https://api.telegram.org/bot$TOKEN/sendmessage?chat_id=294405920&text="Saludando%20al%20Bot"
+
+
+

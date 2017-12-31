@@ -1,0 +1,105 @@
+#!/bin/bash
+
+source /CDC/scripts/subscriptions/func_basicas
+
+ARG1="$1"
+ARG2="$2"
+ARGN="$#"
+USERNAME="cdcscript"
+PASSWORD="Cr3d1c4rd$"
+SERVER="localhost"
+PORT="11010"
+AGENT="DB_IST"
+SUBSCRIP="*all"
+ACCION="continuous"
+
+
+
+function mensaje {
+                colores 1
+                echo -e "Debe escribir alguna accion...!!!"
+                echo -e "Ejemplo: $0 stop all"
+                echo -e "Ejemplo: $0 stop S_CCJRNC"
+                echo -e "Ejemplo: $0 start all"
+                echo -e "Ejemplo: $0 start S_CCJRNC"
+                echo -e "Ejemplo: $0 list"
+                colores 4
+                return 1
+}
+
+function CDC {
+        > /tmp/cdc_subscription
+        echo -e "/CDC/TS_AccessServer/bin/online <<'EOF' \nconnectServer($USERNAME,$PASSWORD,$SERVER,$PORT); \nconnectAgent($AGENT);"  >> /tmp/cdc_subscription
+        if [ $1 == "list" ]; then
+                echo -e "getSubscriptionActivity($AGENT);" >> /tmp/cdc_subscription
+        fi
+        if [ $1 == "stopALL" ]; then
+                echo -e "stopMirror($AGENT, *all, immediate);" >> /tmp/cdc_subscription
+        fi
+        if [ $1 == "stop" ]; then
+                echo -e "stopMirror($AGENT, $ARG2, immediate);" >> /tmp/cdc_subscription
+        fi
+
+        if [ $1 == "startALL" ]; then
+                echo -e "startMirror($AGENT, *all, continuous);" >> /tmp/cdc_subscription
+        fi
+        if [ $1 == "start" ]; then
+                echo -e "startMirror($AGENT, $ARG2, continuous);" >> /tmp/cdc_subscription
+        fi
+
+        echo -e "disconnectServer();">> /tmp/cdc_subscription
+        echo -e "EOF" >> /tmp/cdc_subscription
+}
+
+function listar {
+    if [ $ARG1 == "list" ]; then
+            CDC $ARG1 $ARG2
+    else
+            mensaje
+            exit 0
+    fi
+}
+
+function ejecutarAccion {
+
+        if [ $ARG1 == "stop" ] && [ $ARG2 == "all" ] ; then
+                CDC "stopALL" $ARG1 $ARG2
+        elif [ $ARG1 == "stop" ] ; then
+                CDC "stop" $ARG1 $ARG2
+        elif [ $ARG1 == "start" ] && [ $ARG2 == "all" ] ; then
+                CDC "startALL" $ARG1 $ARG2
+        elif [ $ARG1 == "start" ]; then
+                CDC "start" $ARG1 $ARG2
+        else
+                mensaje
+                exit 0
+        fi
+}
+
+clear
+case $ARGN in
+    0)
+        mensaje
+        exit 0
+    ;;
+    1)
+        listar
+    ;;
+    2)
+        ejecutarAccion
+    ;;
+    *)
+        mensaje
+        exit 0
+    ;;
+esac
+
+chmod +x /tmp/cdc_subscription
+echo "#############################################################################################"
+echo "Por favor espere, recuerde que esto dependera de que tan rapido responda el AS400 y el Oracle"
+echo "#############################################################################################"
+sh /tmp/cdc_subscription | grep -v \>
+sleep 1
+> /tmp/cdc_subscription
+exit 0
+
