@@ -1,0 +1,97 @@
+Como crear un script para Systemd
+=================================
+
+Necesitamos dos archivos: EL script y el .service (archivo unit de configuracion)
+Debemos estar seguros que el script (Ejecuta las acciones programadas por nosostros) sea ejecutable y el (the shebang) sea #!/bin/sh
+Creamos el .service en /etc/systemd/system (un archivo palano y le llamamos vgaoff.service).
+
+Por ejemplo:
+
+El script: 	/usr/bin/vgaoff
+El unit: 	/etc/systemd/system/vgaoff.service
+
+Ahora, edite el unit file. este contenido depende de como trabaje el script.
+
+SI vgaoff hace power off del gpu, como por ejemplo:
+
+exec blah-blah pwrOFF etc 
+
+Entonces el contenido de vgaoff.service deberia ser:
+
+	[Unit]
+	Description=Power-off gpu
+
+	[Service]
+	Type=oneshot
+	ExecStart=/usr/bin/vgaoff
+
+	[Install]
+	WantedBy=multi-user.target
+
+Si vhaoff es usado para el power off de GPU y tambien el power on, ejemplo:
+
+	start() {
+	  exec blah-blah pwrOFF etc
+	}
+
+	stop() {
+	  exec blah-blah pwrON etc
+	}
+
+	case $1 in
+	  start|stop) "$1" ;;
+	esac
+
+El contenido de  vgaoff.service deberia ser:
+
+	[Unit]
+	Description=Power-off gpu
+
+	[Service]
+	Type=oneshot
+	ExecStart=/usr/bin/vgaoff start
+	ExecStop=/usr/bin/vgaoff stop
+	RemainAfterExit=yes
+
+	[Install]
+	WantedBy=multi-user.target
+
+Para casos mas triviales, podemos trabajar sin el script y ejecutar las acciones directamente:
+
+Para el power off:
+
+	[Unit]
+	Description=Power-off gpu
+
+	[Service]
+	Type=oneshot
+	ExecStart=/bin/sh -c "echo OFF > /whatever/vga_pwr_gadget/switch"
+
+	[Install]
+	WantedBy=multi-user.target
+
+Para el power off & on:
+
+	[Unit]
+	Description=Power-off gpu
+
+	[Service]
+	Type=oneshot
+	ExecStart=/bin/sh -c "echo OFF > /whatever/vga_pwr_gadget/switch"
+	ExecStop=/bin/sh -c "echo ON > /whatever/vga_pwr_gadget/switch"
+	RemainAfterExit=yes
+
+	[Install]
+	WantedBy=multi-user.target
+
+Cuando estemos listos con los archivos, habilitamos el servicio:
+	
+	systemctl status vgaoff.service
+
+	systemctl enable vgaoff.service
+
+	systemctl start vgaoff.service
+
+Esto podra iniciar automaticamente despues de un rebooting de la maquina.
+
+

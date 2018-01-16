@@ -1,0 +1,176 @@
+cgomez@scm01:/tmp$ sftp consis@200.37.155.31
+consis@200.37.155.31's password: 
+Connected to 200.37.155.31.
+
+sftp> ls
+12.9                    12.9WorkSite            13.8                    APP_VIDA__APP_VIDA      AcseleCore              
+BACKUP                  BDVIDA_WORKSITE-BKP     DBATEST                 lost+found   
+           
+sftp> cd 13.8
+
+sftp> ls
+EAR_AcseleV13.8_RIMAC_20170124_Rev.60885                    EAR_AcseleV13.8_RIMAC_20170124_Rev.60891                    
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18703                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18721                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18727                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18735                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18745                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18782                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18785                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18792                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18801                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18835                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18843                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18844                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18855                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18856                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18857                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18862                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18866                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18873                  
+                                                                    
+sftp> mkdir EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874
+
+sftp> ls
+EAR_AcseleV13.8_RIMAC_20170124_Rev.60885                    EAR_AcseleV13.8_RIMAC_20170124_Rev.60891                    
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18703                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18721                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18727                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18735                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18745                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18782                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18785                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18792                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18801                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18835                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18843                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18844                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18855                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18856                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18857                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18862                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18866                  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18873                  
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874     
+             
+sftp> cd EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874
+
+sftp> ls
+
+sftp> lpwd
+Local working directory: /tmp
+   
+sftp> lcd /home/cgomez/CLIENTES/RIMAC/
+
+sftp> ls
+
+sftp> lpwd
+Local working directory: /home/cgomez/CLIENTES/RIMAC
+
+sftp> lls
+EAR_12.9_WorkSite2_Rev.G-499		    EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874	    schematoolsql.bat
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18745  EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874.zip  schematoolsql.sh
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18857  Generate_SchemaTool_JAR
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18866  Generate_SchemaTool_JAR.zip
+
+sftp> put EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874.zip
+Uploading EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874.zip to /13.8/EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874/EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874.zip
+EAR_AcseleV13.8_RIMAC_20170124_Rev.G-18874.zip                                        100%  880MB 287.8KB/s   52:09    
+
+sftp> bye
+
+
+======================================================================================================================
+
+
+1. How to Connect to SFTP
+By default, same SSH protocol is used to authenticate and establish a SFTP connection. To start an SFTP session, enter the username and remote hostname or IP address at the command prompt. Once authentication successful, you will see a shell with an sftp> prompt.
+
+	[root@tecmint ~]# sftp tecmint@27.48.137.6
+	Connecting to 27.48.137.6...
+	tecmint@27.48.137.6's password:
+	sftp>
+
+2. Getting Help
+Once, you in the sftp prompt, check the available commands by typing ‘?‘ or ‘help‘ at command prompt.
+
+	sftp> ?
+	Available commands:
+	cd path                       Change remote directory to 'path'
+	lcd path                      Change local directory to 'path'
+	chgrp grp path                Change group of file 'path' to 'grp'
+	chmod mode path               Change permissions of file 'path' to 'mode'
+	chown own path                Change owner of file 'path' to 'own'
+	help                          Display this help text
+	get remote-path [local-path]  Download file
+	lls [ls-options [path]]       Display local directory listing
+	ln oldpath newpath            Symlink remote file
+	lmkdir path                   Create local directory
+	lpwd                          Print local working directory
+	ls [path]                     Display remote directory listing
+	lumask umask                  Set local umask to 'umask'
+	mkdir path                    Create remote directory
+	put local-path [remote-path]  Upload file
+	pwd                           Display remote working directory
+	exit                          Quit sftp
+	quit                          Quit sftp
+	rename oldpath newpath        Rename remote file
+	rmdir path                    Remove remote directory
+	rm path                       Delete remote file
+	symlink oldpath newpath       Symlink remote file
+	version                       Show SFTP version
+	!command                      Execute 'command' in local shell
+	!                             Escape to local shell
+	?                             Synonym for help
+
+3. Check Present Working Directory
+The command ‘lpwd‘ is used to check the Local present working directory, whereas ‘pwd‘ command is used to check Remote working directory.
+
+	sftp> lpwd
+	Local working directory: /
+	sftp> pwd
+	Remote working directory: /tecmint/
+	lpwd – print the current directory on your system
+	pwd – print the current directory on the ftp server
+
+4. Listing Files
+Listing files and directories in local as well as remote system.
+
+On Remote
+	sftp> ls
+	On Local
+	sftp> lls
+
+5. Upload File
+Put single or multiple files in remote system.
+
+	sftp> put local.profile
+	Uploading local.profile to /tecmint/local.profile
+
+6. Upload Mutiple Files
+Putting multiple files on in remote system.
+
+	sftp> mput *.xls
+
+6. Download Files
+Getting single or multiple files in local system.
+
+	sftp> get SettlementReport_1-10th.xls
+	Fetching /tecmint/SettlementReport_1-10th.xls to SettlementReport_1-10th.xls
+	Get multiple files on a local system.
+
+	sftp> mget *.xls
+
+Note: As we can see by default with get command download file in local system with same name. We can download remote file with different name specifying the name at the end. (This applies only while downloading single file).
+
+7. Switching Directories
+Switching from one directory to another directory in local and remote locations.
+
+On Remote
+	sftp> cd test
+	sftp>
+	On Local
+	sftp> lcd Documents
+
+8. Create Directories
+Creating new directories on local and remote locations.
+
+	sftp> mkdir test
+	sftp> lmkdir Documents
+	9. Remove Directories
+	Remove directory or file in remote system.
+
+	sftp> rm Report.xls
+	sftp> rmdir sub1
+
+Note: To remove/delete any directory from remote location, the directory must be empty.
+
+10. Exit sFTP Shell
+The ‘!‘ command drop us in local shell from where we can execute Linux commands. Type ‘exit‘ command where we can see sftp> prompt return.
+
+	sftp> !
+	[root@sftp ~]# exit
+	Shell exited with status 1
+	sftp>

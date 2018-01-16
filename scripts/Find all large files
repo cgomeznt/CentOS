@@ -1,0 +1,36 @@
+Linux List All Large Files
+==============================
+
+To finds all files over 50,000KB (50MB+) in size and display their names, along with size, use following syntax:
+
+Syntax for RedHat / CentOS / Fedora Linux
++++++++++++++++++++++++++++++++++++++++++++++
+
+find {/path/to/directory/} -type f -size +{size-in-kb}k -exec ls -lh {} \; | awk '{ print $9 ": " $5 }' 
+Search or find big files Linux (50MB) in current directory, enter:
+$ find . -type f -size +50000k -exec ls -lh {} \; | awk '{ print $9 ": " $5 }' 
+Search in my /var/log directory:
+# find /var/log -type f -size +100000k -exec ls -lh {} \; | awk '{ print $9 ": " $5 }'
+
+Syntax for Debian / Ubuntu Linux
++++++++++++++++++++++++++++++++++
+
+find {/path/to/directory} -type f -size +{file-size-in-kb}k -exec ls -lh {} \; | awk '{ print $8 ": " $5 }' 
+Search in current directory:
+$ find . -type f -size +10000k -exec ls -lh {} \; | awk '{ print $8 ": " $5 }'
+Sample output:
+
+./.kde/share/apps/akregator/Archive/http___blogs.msdn.com_MainFeed.aspx?Type=AllBlogs.mk4: 91M
+./out/out.tar.gz: 828M
+./.cache/tracker/file-meta.db: 101M
+./ubuntu-8.04-desktop-i386.iso: 700M
+./vivek/out/mp3/Eric: 230M
+
+Above commands will lists files that are are greater than 10,000 kilobytes in size. To list all files in your home directory tree less than 500 bytes in size, type:
+
+$ find $HOME -size -500b 
+OR
+$ find ~ -size -500b
+
+To list all files on the system whose size is exactly 20 512-byte blocks, type:
+# find / -size 20

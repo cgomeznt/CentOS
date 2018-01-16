@@ -1,0 +1,19 @@
+
+Buscar los ultimos archivos modificados hace 24 horas
+find /directory_path -mtime -1
+
+Buscar los ultimos archivos modificados hace 20min
+find /directory_path -mmin -20
+
+Buscar los archivo mayores a 10Mb
+find /directory_path -size +10M
+
+Buscar los archivo mayores a 2Gb
+find /directory_path -size +2G
+
+
+Buscar los archivo menores a 10Mb
+find /directory_path -size -10M
+
+Buscar los archivo menores a 2Gb
+find /directory_path -size -2G
