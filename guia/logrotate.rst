@@ -246,14 +246,20 @@ recuerda otorgar permisos de ejecucion.::
 
 Ejemplo del archivo en /etc/logrotate.d.::
 
-	vi /etc/logrotate.d/openldaplog
 	/var/log/ldap.log {
+		copytruncate
 		missingok
-		#size 3k
-		size 3M
+		size 2M
 		rotate 4
 		notifempty
 		compress
+		postrotate
+		        /bin/systemctl restart slapd.service > /dev/null 2>/dev/null || true
+		        /bin/systemctl restart rsyslog.service > /dev/null 2>/dev/null || true
+		endscript
+	}
+
+
 
 Ejemplo del archivo en el /etc/cron.hourly.::
 
