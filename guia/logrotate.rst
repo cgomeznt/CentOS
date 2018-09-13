@@ -254,15 +254,13 @@ Ejemplo del archivo en /etc/logrotate.d.::
 		notifempty
 		compress
 
-Ejemplo del archivo en el 
+Ejemplo del archivo en el /etc/cron.hourly.::
 
 	vi /etc/cron.hourly/openldap.cron
 
 	# esto seria un ejemplo del contenido, el archivo /etc/logrotate.d/openldaplog ya debe existir y estar operativo con le logrotate
 	#!/bin/sh
-
 	/usr/sbin/logrotate /etc/logrotate.d/openldaplog
-
 	EXITVALUE=0
 	if [  != 0 ]; then
 		 /usr/bin/logger -t logrotate "ALERT exited abnormally with [$EXITVALUE]"
