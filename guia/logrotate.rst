@@ -234,3 +234,37 @@ Following compression options are specified above:
 compress – Indicates that compression should be done.
 compresscmd – Specify what type of compression command should be used. For example: /bin/bzip2
 compressext – Specify the extension on the rotated log file. Without this option, the rotated file would have the default extension as .gz. So, if you use bzip2 compressioncmd, specify the extension as .bz2 as shown in the above example.
+
+
+Personalizar el logrotate
+++++++++++++++++++++++++++++
+
+Si se quiere que el logrotate este ejecutando cada hora se debe crear un script.
+Debe crear primero el archivo en /etc/logrotate.d/
+luego en /etc/cron.hourly/nombredelscript.crontab
+recuerda otorgar permisos de ejecucion.::
+
+Ejemplo del archivo en /etc/logrotate.d.::
+
+	vi /etc/logrotate.d/openldaplog
+	/var/log/ldap.log {
+		missingok
+		size 3k
+		rotate 4
+		notifempty
+		compress
+
+Ejemplo del archivo en el 
+
+	vi /etc/cron.hourly/openldap.cron
+
+	# esto seria un ejemplo del contenido, el archivo /etc/logrotate.d/openldaplog ya debe existir y estar operativo con le logrotate
+	#!/bin/sh
+
+	/usr/sbin/logrotate /etc/logrotate.d/openldaplog
+
+	EXITVALUE=0
+	if [  != 0 ]; then
+		 /usr/bin/logger -t logrotate "ALERT exited abnormally with [$EXITVALUE]"
+	fi
+	exit 0
