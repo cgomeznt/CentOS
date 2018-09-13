@@ -247,6 +247,7 @@ recuerda otorgar permisos de ejecucion.::
 Ejemplo del archivo en /etc/logrotate.d.::
 
 	/var/log/ldap.log {
+		#su wso2 wso2
 		copytruncate
 		missingok
 		size 2M
