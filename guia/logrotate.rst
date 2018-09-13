@@ -249,7 +249,8 @@ Ejemplo del archivo en /etc/logrotate.d.::
 	vi /etc/logrotate.d/openldaplog
 	/var/log/ldap.log {
 		missingok
-		size 3k
+		#size 3k
+		size 3M
 		rotate 4
 		notifempty
 		compress
