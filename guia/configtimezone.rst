@@ -6,7 +6,7 @@ Una zona horaria no es más que una región del mundo que observa un tiempo est�
 
 Pero existe el El tiempo universal coordinado o UTC (de una transigencia entre la versión en inglés Coordinated Universal Time y la versión en francés Temps universel coordonné) es el principal estándar de tiempo por el cual el mundo regula los relojes y el tiempo.
 
-Los sistemas operativos en realidad utilizan el UTC como tiempo principal y luego es que utiliza el Timezone para sumar o restar asi sea el caso.
+Los sistemas operativos en realidad utilizan el UTC como tiempo principal y luego es que utiliza el Timezone para sumar o restar así sea el caso.
 
 Ejemplo:
 
@@ -32,7 +32,7 @@ CentOS timezone archivos de configuración y directorios
 
 **/usr/share/zoneinfo/** – En este directorio se encuentran los archivos por nombre de cada Timezone.
 
-**/etc/localtime** – Es un enlace simbolico del archivo ubicado en el directorio /usr/share/zoneinfo/
+**/etc/localtime** – Es un enlace simbólico del archivo ubicado en el directorio /usr/share/zoneinfo/
 
 
 Como ver cual es el Timezone actual del CentOS Linux?
