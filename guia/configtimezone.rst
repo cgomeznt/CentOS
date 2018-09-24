@@ -31,6 +31,7 @@ CentOS timezone archivos de configuración y directorios
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 **/usr/share/zoneinfo/** – En este directorio se encuentran los archivos por nombre de cada Timezone.
+
 **/etc/localtime** – Es un enlace simbolico del archivo ubicado en el directorio /usr/share/zoneinfo/
 
 
