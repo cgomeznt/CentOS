@@ -22,5 +22,6 @@
 * [Crear un mirror offline con wget](guia/mirrorwget.rst)
 * [Crear un repo local](guia/repolocal.rst)
 * [Instalar python 3.4.5 sin afectar las otras instalaciones](guia/pythonl.rst)
+* [Configurar time Zone ](guia/configtimezone.rst)
 
 
