@@ -1,6 +1,8 @@
 Configurar NTP
 ==============
 
+Configuración del Server
++++++++++++++++++++++++++++++
 
 Instalar ntp server.::
 
@@ -31,4 +33,16 @@ Verificando ntp.::
 Configurando el reloj.::
 
 	# ntpdate -u localhost
+
+
+Configuración de los clientes
++++++++++++++++++++++++++++++
+
+En los clientes lo unico que se debe hacer es ubicar el archivo "/etc/ntp.conf" y eliminamos las lineas en donde estan los servers y agregamos nuestro nuevo server.
+
+	# Use public servers from the pool.ntp.org project.
+	# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+	server 200.194.21.21
+
+
 
