@@ -17,9 +17,9 @@ Creamos los usuarios o podemos utilizar los que ya existan.::
 	# useradd zabbix
 
 
-Editamos el archivo de configuración del VNC:
+Editamos el archivo de configuración del VNC::
 
-# vi /etc/sysconfig/vncservers
+	# vi /etc/sysconfig/vncservers
 
 	VNCSERVERS="1:oracle 2:cgomez 3:zabbix"
 	VNCSERVERARGS[1]="-geometry 640x480"
