@@ -52,7 +52,7 @@ Ahora vamos a cada perfil de usuario y le vamos a crear el passwor que utilizara
 	passwd
 	[.vnc]$ exit
 
-Iniciamos el servicio de VNC server
+Iniciamos el servicio de VNC server.::
 
 	# /sbin/service   vncserver start
 	# /sbin/service   vncserver stop
