@@ -1,7 +1,7 @@
 instalar Xorg y que ssh haga forward al X
 ===========================================
 
-Por lo normar en los servidores no queremos tener instalado una suite completa de Desktop como lo es Gnome o KDE. Pero en algunas ocaciones hay aplicaciones que requieren el protocolo de las X, como lo pudiera ser algunos productos Oracle, productos de IBM, etc. Para estos casos solo instalamos el xorg-server y xorg-x11-xauth para el ssh.
+Por lo normal en los servidores no queremos tener instalado una suite completa de Desktop como lo es Gnome o KDE. Pero en algunas ocasiones hay aplicaciones que requieren el protocolo de las X, como lo pudiera ser algunos productos Oracle, productos de IBM, etc. Para estos casos solo instalamos el xorg-server y xorg-x11-xauth para el ssh.
 
 Instalando los paquetes necesarios
 +++++++++++++++++++++++++++++++++++
@@ -17,7 +17,7 @@ Instalando xorg-x11-xauth.::
 Test ssh forward a las X
 +++++++++++++++++++++++++
 
-Nos conectamos al servidor con ssh y le pasamos el parametro ".X" y debemos consultar la variable DISPLAY y el ssh debe fijarle el valor automaticamente.::
+Nos conectamos al servidor con ssh y le pasamos el parámetro ".X" y debemos consultar la variable DISPLAY y el ssh debe fijarle el valor automaticamente.::
  
 	$ ssh -X root@192.168.1.21
 	root@192.168.1.21's password: 

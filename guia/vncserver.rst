@@ -29,7 +29,7 @@ Editamos el archivo de configuración del VNC::
 Oracle utilizara la configuración de 640x480, cgomez 1024x768 y zabbix 700x600
 
 
-Ahora vamos a cada perfil de usuario y le vamos a crear el passwor que utilizara para que el vnc-client pueda establecer la conexión, preferiblemnete utilizamos la misma clave del login.::
+Ahora vamos a cada perfil de usuario y le vamos a crear el password que utilizara para que el vnc-client pueda establecer la conexión, preferiblemente utilizamos la misma clave del login.::
 
 	# su - oracle
 	$ vncpasswd
