@@ -8,6 +8,7 @@
 * [Configurar Default Router y Static Router](guia/defaultrouterstatic.rst)
 * [Configurar DNS](guia/dns.rst)
 * [Configurar Cambiar Hostname](guia/cambiar_hostname.rst)
+* [Cambiar la distribución del teclado - keymap layout](guia/cambiarteclado.rst)
 * [Configurar bonding en VirtualBox](guia/bonding_vm.rst)
 * [Configurar bonding](guia/bonding.rst)
 * [Configurar Selinux](guia/selinux.rst)
