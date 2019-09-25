@@ -511,7 +511,7 @@ Vea como en esta linea el blocks cambio::
 
 	data     =                       bsize=4096   blocks=9303040, imaxpct=25
 
-Verifique el nuevo tamaño del sistema de archivos XFS en la salida del comando “df -h”.
+Verifique el nuevo tamaño del sistema de archivos XFS en la salida del comando “df -h”.::
 
 	# df -hP /data
 	Filesystem                   Size  Used Avail Use% Mounted on
