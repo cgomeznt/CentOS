@@ -14,6 +14,21 @@ Instalando xorg-x11-xauth.::
 
 	# yum install xorg-x11-xauth
 
+Archivos de configuración
++++++++++++++++++++++++++++++
+
+En el server debe tener estas lineas /etc/ssh/sshd_config::
+
+	X11Forwarding yes
+	X11DisplayOffset 10
+	X11UseLocalhost no
+
+En el cliente debe tener estas lineas ~/.ssh/config ::
+
+	Host *
+	  ForwardAgent yes
+	  ForwardX11 yes
+
 Test ssh forward a las X
 +++++++++++++++++++++++++
 
