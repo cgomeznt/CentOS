@@ -19,6 +19,7 @@
 * [Configurar LVM](guia/lvm.rst)
 * [Instalar un escritorio gr√°fico](guia/installgrafico.rst)
 * [Instalar Xorg y que ssh haga forward al X](guia/installxorgssh.rst)
+* [Iniciar aplicaciones X11 despues de hacer ìsuî or ìsu -î con otro usuario](guia/X11_applications_after_su_other_user.rst)
 * [instalar Herramientas de Desarrollo](guia/installdev.rst)
 * [Configurar logrotate](guia/logrotate.rst)
 * [Crear un mirror offline con wget](guia/mirrorwget.rst)
