@@ -49,7 +49,11 @@ Montar el sistemas de archivos XFS, en el punto de montura que le corresponde::
 Editar el fstab
 ------------------
 
-Para el montaje permanente, utilice el archivo /etc/fstab::
+Para el montaje permanente, utilice el archivo /etc/fstab, pero antes desmontamos el /postgres::
+
+  # unmount /postgres
+  
+Procedemos a editar el /etc/fstab::
 
   # vi /etc/fstab
 
