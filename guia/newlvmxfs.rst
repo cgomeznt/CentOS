@@ -18,11 +18,11 @@ Con los comandos pvcreate, vgcreate y lvcreate::
   # pvcreate /dev/sdb1
    Physical volume "/dev/sdb1" successfully created
 
-  # vgcreate vg_xfs /dev/sdb1
-   Volume group "vg_xfs" successfully created
+  # vgcreate vg_postgres /dev/sdb1
+   Volume group "vg_postgres" successfully created
 
-  # lvcreate -L +6G -n xfs_db vg_xfs
-   Logical volume "xfs_db" created
+  # lvcreate -L +6G -n lv_postgres vg_postgres
+   Logical volume "lv_postgres" created
 
 Crear un sistema de archivos XFS en la partición lvm
 ----------------------------------------------------
